@@ -6,14 +6,15 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(tidyverse)
 week4_df <- read_delim("../data/week4.dat", delim = "-", col_names = c("casenum", "parnum", "stimver","datadate", "qs"))
 glimpse(week4_df)
-week4_df_qs <- separate(week4_df, "qs", c("q1", "q2", "q3", "q4", "q5"))
+week4_df_qs <- separate(week4_df, "qs", c("q1", "q2", "q3", "q4", "q5")) #into = paste0("q", 1:5, " - ")
 week4_df_qs[,5:9] <- sapply(week4_df_qs[ , 5:9], as.numeric)
 week4_df_qs[,5:9][week4_df_qs[, 5:9] == 0] <- NA
 
 
 
 
-week4_df_qs$datadate <- as.POSIXct(week4_df_qs$datadate, format = "%b %d %Y, %H:%M:%S" )
+week4_df_qs$datadate <- as.POSIXct(week4_df_qs$datadate, format = "%b %d %Y, %H:%M:%S" ) 
+#or load lubridate and run week4_df$datadate <- mdy_hms(week4_df$datadate)
 
 
 #Data Analysis
