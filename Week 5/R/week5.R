@@ -26,7 +26,4 @@ Baggr_tbl <- Bdata_tbl %>% left_join(Bnotes_tbl, by = "parnum")
 bind_rows(A = Aaggr_tbl, B= Baggr_tbl,.id="dataset") %>% #.id essentially creates a col that differentiates A and B
   group_by(dataset) %>%
   filter(is.na(notes)) %>%
-  summarize(n()) #gets the count
-
-
-
+  summarize(n()) #gets the count from each group
