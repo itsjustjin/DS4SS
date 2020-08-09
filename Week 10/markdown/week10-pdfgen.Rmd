@@ -1,0 +1,43 @@
+---
+title: "week10-pdfgen"
+author: "Jin Chen"
+date: "8/3/2020"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+#Libraries
+library(tidyverse)
+```
+
+# Data Import and Cleaning
+In this block I imported the National Ongitudinal Study of Adolescent to Adult Health Wave IV, 2008 dataset from the UNC Dataverse website. I selected three variables and convereted gender to a factor variable.
+
+```{r message=FALSE}
+health_tbl <- read_tsv("../data/w4inhome_dvn.tab") %>% 
+  select(attractiveness = H4MH8,
+         pregnancies = H4TR9,
+         gender = BIO_SEX4) %>% 
+  mutate(gender = factor(gender, levels = c(1,2), labels = c("Male", "Female")))
+```
+
+# Analysis
+In this block I conducted a multiple linear regression of pregnancies on the two independent variables attractiveness and gender, checked assumptions and exmained a coefficients table. 
+
+```{r message=FALSE}
+model <- lm(pregnancies ~ attractiveness * gender, data = health_tbl) #The specification first*second indicates the cross of first and second. This is the same as first + second + first:second.
+plot(model)
+summary(model)
+```
+Attractiveness was statistically significant (t= 0.2521, p = 0.012) but gender and interaction were not. (?)
+
+#Visualization
+I visualize the interaction using the fitted variables.
+
+```{r message=FALSE}
+ggplot(health_tbl, aes(x = attractiveness, y = pregnancies, color = gender)) +
+  geom_smooth(method = "lm") +
+  geom_point()
+
+```
+

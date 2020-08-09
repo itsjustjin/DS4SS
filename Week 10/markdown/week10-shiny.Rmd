@@ -1,0 +1,22 @@
+---
+title: "week10-shiny"
+author: "Jin Chen"
+date: "8/3/2020"
+output: html_document
+runtime: shiny
+---
+
+```{r message=FALSE, echo=FALSE}
+library(tidyverse)
+health_tbl <- read_csv("forshiny.csv")
+
+selectInput("gender", label = "Gender:", choices = c("Both", "Male", "Female"), selected = "Both")
+
+renderPlot({
+  if(input$gender != "Both") health_tbl <- filter(health_tbl, gender ==input$gender)
+  ggplot(health_tbl, aes(x = attractiveness, y = pregnancies, color = gender)) +
+    geom_smooth(method = "lm")
+  
+})
+```
+
