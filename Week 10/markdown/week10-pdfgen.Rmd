@@ -39,5 +39,6 @@ ggplot(health_tbl, aes(x = attractiveness, y = pregnancies, color = gender)) +
   geom_smooth(method = "lm") +
   geom_point()
 
+#write_csv(health_tbl, "../markdown/forshiny.csv")
 ```
 
